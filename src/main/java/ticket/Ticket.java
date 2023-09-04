@@ -56,5 +56,29 @@ public class Ticket {
         return age >= 2 && age <= 100;
     }
 
+    // metodo del calcolo del prezzo biglietto
+
+    public BigDecimal calcolaPrezzo() {
+        BigDecimal initialPrice = kmPrice.multiply(new BigDecimal(km));
+        BigDecimal discount = calcolaSconto();
+        return initialPrice.subtract(discount);
+    }
+
+
+
+    // metodo privato per calcolare lo sconto
+    private BigDecimal calcolaSconto(){
+            BigDecimal discount= BigDecimal.valueOf(0);
+                // se l'età del passeggero è maggiore o uguale a 65 anni, applico uno sconto del 40%
+            if (age>=65){
+                    discount = kmPrice.multiply(new BigDecimal(km)).multiply(discount65);
+            } else if (age <18){
+                    // se invece il passeggero ha meno di 18 anni, applico uno sconto del 20%
+                    discount = kmPrice.multiply(new BigDecimal(km)).multiply(discountMinor);
+            }
+            return discount;
+    }
+
+
 
 }
