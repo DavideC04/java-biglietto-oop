@@ -27,7 +27,7 @@ public class Ticket {
     // costruttore con eccezione
 
     public Ticket(int km, int age) throws IllegalArgumentException {
-        if (!isValidKm() || !isValidEta()){
+        if (!isValidKm(km) || !isValidEta(age)){
             throw new IllegalArgumentException("Invalid km and age values");
         }
         this.km = km;
@@ -47,13 +47,13 @@ public class Ticket {
 
     // METODI
     // validità km
-    public boolean isValidKm() {
-        return km>=0;
+    public boolean isValidKm( int km) {
+        return km>0;
     }
 
     //validità età passeggero
-    public boolean isValidEta() {
-        return age >= 2 && age <= 100;
+    public boolean isValidEta(int age) {
+        return age >= 0 && age <= 100;
     }
 
     // metodo del calcolo del prezzo biglietto
@@ -61,7 +61,8 @@ public class Ticket {
     public BigDecimal calcolaPrezzo() {
         BigDecimal initialPrice = kmPrice.multiply(new BigDecimal(km));
         BigDecimal discount = calcolaSconto();
-        return initialPrice.subtract(discount);
+        BigDecimal finalPrice = initialPrice.subtract(discount);
+        return finalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
 
